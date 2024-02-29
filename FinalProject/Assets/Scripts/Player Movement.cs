@@ -129,6 +129,6 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimator()
     {
         bool isMoving = Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f;
-        animator.SetBool("IsMoving", isMoving);
+        animator.SetBool("IsMoving", isMoving)
     }
 }
