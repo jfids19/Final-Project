@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: RetroBeach SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 1301698306
   material: {fileID: 6133664599998848727}
-  materialHashCode: 0
+  materialHashCode: -1688610206
   m_Version: 1.1.0
   m_SourceFontFileGUID: ff9947dec3bd74c63b46b549ce11d007
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: ff9947dec3bd74c63b46b549ce11d007,
@@ -2653,12 +2653,12 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.421
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0

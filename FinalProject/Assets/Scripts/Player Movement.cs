@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
+    public float sprintSpeedMultiplier = 2;
 
     public float groundDrag;
 
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode sprintKey = KeyCode.LeftShift;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {  
         //ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
         Debug.Log("Grounded: " + grounded); 
@@ -82,6 +85,18 @@ public class PlayerMovement : MonoBehaviour
            Jump();
 
            Invoke(nameof(ResetJump), jumpCooldown); 
+        }
+
+         //Handle sprint input
+        if (Input.GetKeyDown(sprintKey))
+        {
+            moveSpeed *= sprintSpeedMultiplier;
+            animator.SetBool("IsRunning", true);
+        }
+        else if (Input.GetKeyUp(sprintKey))
+         {    
+         moveSpeed /= sprintSpeedMultiplier;
+         animator.SetBool("IsRunning", false);
         }
     }
 
@@ -129,6 +144,6 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimator()
     {
         bool isMoving = Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f;
-        animator.SetBool("IsMoving", isMoving)
+        animator.SetBool("IsMoving", isMoving);
     }
 }
