@@ -11,6 +11,19 @@ public class ThirdPersonCamera : MonoBehaviour
     public Rigidbody rb;
 
     public float rotationSpeed;
+
+    public Transform combatLookAt;
+
+    public GameObject ThirdPersonCam;
+    public GameObject CombatCam;
+
+    public CameraStyle currentStyle;
+
+    public enum CameraStyle
+    {
+        Basic,
+        Combat
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -22,12 +35,27 @@ public class ThirdPersonCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //switch styles
+        if(Input.GetMouseButtonDown(1))
+        {
+            if(currentStyle == CameraStyle.Basic)
+            {
+                SwitchCameraStyle(CameraStyle.Combat);
+            }
+             else if (currentStyle == CameraStyle.Combat)
+            {
+                SwitchCameraStyle(CameraStyle.Basic);
+            }
+        }
+        
         //rotate orientation
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
 
         //rotate player object
-        float horizontalInput = Input.GetAxis("Horizontal");
+        if(currentStyle == CameraStyle.Basic)
+        {
+            float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
         Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
@@ -35,5 +63,25 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             playerObject.forward = Vector3.Slerp(playerObject.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
         }
+        }
+
+        else if(currentStyle == CameraStyle.Combat)
+        {
+            Vector3 dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
+            orientation.forward = dirToCombatLookAt.normalized;
+
+            playerObject.forward = dirToCombatLookAt.normalized;
+        }
+    }
+
+    private void SwitchCameraStyle(CameraStyle newStyle)
+    {
+        CombatCam.SetActive(false);
+        ThirdPersonCam.SetActive(false);
+
+        if (newStyle == CameraStyle.Basic) ThirdPersonCam.SetActive(true);
+        if (newStyle == CameraStyle.Combat) CombatCam.SetActive(true);
+
+        currentStyle = newStyle;
     }
 }
