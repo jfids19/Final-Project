@@ -48,6 +48,9 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    public Transform player;
+    public Transform playerObject;
+    public float yOffset;
 
     public MovementState state;
 
@@ -96,6 +99,9 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+
+        //sync
+        playerObject.position = transform.position + Vector3.up * yOffset;
     }
 
     private void MyInput()
@@ -214,8 +220,6 @@ public class PlayerMovement : MonoBehaviour
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
-        animator.SetBool("IsJumping", true);
-
         Debug.Log("Jumping!");
     }
 
@@ -224,8 +228,6 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
 
         exitingSlope = false;
-
-        animator.SetBool("IsJumping", false);
     }
 
     private bool OnSlope()
@@ -256,6 +258,11 @@ public class PlayerMovement : MonoBehaviour
         else if(Input.GetKeyUp(crouchKey))
         {
             animator.SetBool("IsCrouching", false);
+        }
+
+        if(Input.GetKeyDown(jumpKey))
+        {
+            animator.SetTrigger("JumpTrigger");
         }
     }
 }
