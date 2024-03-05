@@ -264,5 +264,14 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetTrigger("JumpTrigger");
         }
+
+        if(grounded)
+        {
+            animator.SetBool("IsGrounded", true);
+        }
+        else if(!grounded)
+        {
+            animator.SetBool("IsGrounded", false);
+        }
     }
 }
