@@ -24,11 +24,15 @@ public class PlayerMovement : MonoBehaviour
     public float crouchSpeed;
     public float crouchYScale;
     private float startYScale;
+    private CapsuleCollider capsuleCollider;
+    private Vector3 originalColliderCenter;
+    private float originalColliderHeight;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode spiritKey = KeyCode.E;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -52,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform playerObject;
     public float yOffset;
 
+    private bool isPlayerScaledDown = false;
+
     public MovementState state;
 
     public enum MovementState
@@ -71,6 +77,10 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
 
         startYScale = transform.localScale.y;
+
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        originalColliderCenter = capsuleCollider.center;
+        originalColliderHeight = capsuleCollider.height;
     }
 
     // Update is called once per frame
@@ -125,17 +135,21 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale,transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             moveSpeed = crouchSpeed;
+            capsuleCollider.height = 4.35f;
+            capsuleCollider.center = new Vector3(0f, -0.93f, 0f);
         }
 
         //stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale,transform.localScale.z);
+            capsuleCollider.height = originalColliderHeight;
+            capsuleCollider.center = originalColliderCenter;
         }
     }
 
     private void StateHandler()
-    {
+    {        
         //mode - crouching
         if(Input.GetKey(crouchKey))
         {
