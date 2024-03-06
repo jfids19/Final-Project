@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Animation")]
     public Animator animator;
+    public Animator spiritAnimator;
 
 
     [Header("Crouching")]
@@ -27,12 +28,14 @@ public class PlayerMovement : MonoBehaviour
     private CapsuleCollider capsuleCollider;
     private Vector3 originalColliderCenter;
     private float originalColliderHeight;
+    private float originalColliderRadius;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
     public KeyCode spiritKey = KeyCode.E;
+    public KeyCode formKey = KeyCode.Q;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -54,9 +57,11 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
     public Transform player;
     public Transform playerObject;
+    public Transform spiritPlayerObject;
     public float yOffset;
 
-    private bool isPlayerScaledDown = false;
+    private bool isHumanActive = true;
+    private bool isSpiritActive = false;
 
     public MovementState state;
 
@@ -81,6 +86,14 @@ public class PlayerMovement : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
         originalColliderCenter = capsuleCollider.center;
         originalColliderHeight = capsuleCollider.height;
+        originalColliderRadius = capsuleCollider.radius;
+
+        //scale spirit player
+        spiritPlayerObject.localScale = new Vector3(0.3f,0.3f,0.3f);
+
+        //activation of players
+        playerObject.gameObject.SetActive(true);
+        spiritPlayerObject.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -112,6 +125,19 @@ public class PlayerMovement : MonoBehaviour
 
         //sync
         playerObject.position = transform.position + Vector3.up * yOffset;
+        spiritPlayerObject.position = transform.position + Vector3.up * yOffset;
+
+        //activation of players
+        if (isHumanActive)
+        {
+            playerObject.gameObject.SetActive(true);
+            spiritPlayerObject.gameObject.SetActive(false);
+        }
+        else if (isSpiritActive)
+        {
+            playerObject.gameObject.SetActive(false);
+            spiritPlayerObject.gameObject.SetActive(true);
+        }
     }
 
     private void MyInput()
@@ -132,19 +158,65 @@ public class PlayerMovement : MonoBehaviour
         //start crouch
         if (Input.GetKeyDown(crouchKey))
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale,transform.localScale.z);
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-            moveSpeed = crouchSpeed;
-            capsuleCollider.height = 4.35f;
-            capsuleCollider.center = new Vector3(0f, -0.93f, 0f);
+            if(isHumanActive == true)
+            {
+                transform.localScale = new Vector3(transform.localScale.x, crouchYScale,transform.localScale.z);
+                rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+                moveSpeed = crouchSpeed;
+                capsuleCollider.height = 4.35f;
+                capsuleCollider.center = new Vector3(0f, -0.93f, 0f);
+            }
+            else if(isSpiritActive == true)
+            {
+                transform.localScale = new Vector3(transform.localScale.x, crouchYScale,transform.localScale.z);
+                rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+                moveSpeed = crouchSpeed;
+                capsuleCollider.height = 1.38f;
+                capsuleCollider.radius = 0.35f;
+                capsuleCollider.center = new Vector3(0f, -2.36f, 0f);
+            }
         }
 
         //stop crouch
         if (Input.GetKeyUp(crouchKey))
         {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale,transform.localScale.z);
-            capsuleCollider.height = originalColliderHeight;
-            capsuleCollider.center = originalColliderCenter;
+            if(isHumanActive == true)
+            {
+                transform.localScale = new Vector3(transform.localScale.x, startYScale,transform.localScale.z);
+                capsuleCollider.height = originalColliderHeight;
+                capsuleCollider.center = originalColliderCenter;
+            }
+            else if(isSpiritActive == true)
+            {
+                transform.localScale = new Vector3(transform.localScale.x, startYScale,transform.localScale.z);
+                capsuleCollider.height = 1.5f;
+                capsuleCollider.radius = 0.35f;
+                capsuleCollider.center = new Vector3(0f,-1.96f,0f);
+            }
+        }
+
+        if(Input.GetKeyDown(formKey))
+        {
+            if(isHumanActive == true)
+            {
+                isHumanActive = false;
+                isSpiritActive = true;
+                walkSpeed = 4;
+                sprintSpeed = 5;
+                capsuleCollider.height = 1.5f;
+                capsuleCollider.radius = 0.35f;
+                capsuleCollider.center = new Vector3(0f,-1.96f,0f);
+            }
+            else if(isSpiritActive == true)
+            {
+                isSpiritActive = false;
+                isHumanActive = true;
+                walkSpeed = 7;
+                sprintSpeed = 9;
+                capsuleCollider.height = originalColliderHeight;
+                capsuleCollider.radius = originalColliderRadius;
+                capsuleCollider.center = originalColliderCenter;
+            }
         }
     }
 
@@ -163,6 +235,8 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
             animator.SetBool("IsRunning", true);
+            spiritAnimator.SetBool("IsRunning", true);
+
         }
 
         //mode - walking
@@ -171,6 +245,7 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.walking;
             moveSpeed = walkSpeed;
             animator.SetBool("IsRunning", false);
+            spiritAnimator.SetBool("IsRunning", false);
         }
 
         //mode - air
@@ -179,7 +254,7 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.air;
         }
 
-        Debug.Log(state);
+        //Debug.Log(state);
     }
 
     private void MovePlayer()
@@ -264,28 +339,42 @@ public class PlayerMovement : MonoBehaviour
     {
         bool isMoving = Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f;
         animator.SetBool("IsMoving", isMoving);
+        spiritAnimator.SetBool("IsMoving", isMoving);
 
         if(Input.GetKeyDown(crouchKey))
         {
             animator.SetBool("IsCrouching", true);
+            spiritAnimator.SetBool("IsCrouching", true);
         }
         else if(Input.GetKeyUp(crouchKey))
         {
             animator.SetBool("IsCrouching", false);
+            spiritAnimator.SetBool("IsCrouching", false);
         }
 
         if(Input.GetKeyDown(jumpKey))
         {
             animator.SetTrigger("JumpTrigger");
+            spiritAnimator.SetTrigger("JumpTrigger");
         }
 
         if(grounded)
         {
             animator.SetBool("IsGrounded", true);
+            spiritAnimator.SetBool("IsGrounded", true);
         }
         else if(!grounded)
         {
             animator.SetBool("IsGrounded", false);
+            spiritAnimator.SetBool("IsGrounded", false);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         }
     }
 }

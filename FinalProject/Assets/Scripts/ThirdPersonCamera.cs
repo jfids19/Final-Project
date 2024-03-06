@@ -8,6 +8,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public Transform orientation;
     public Transform player;
     public Transform playerObject;
+    public Transform spiritPlayerObject;
     public Rigidbody rb;
 
     public float rotationSpeed;
@@ -57,12 +58,13 @@ public class ThirdPersonCamera : MonoBehaviour
         if(currentStyle == CameraStyle.Basic)
         {
             float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+            float verticalInput = Input.GetAxis("Vertical");
+            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         if (inputDir != Vector3.zero)
         {
             playerObject.forward = Vector3.Slerp(playerObject.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+            spiritPlayerObject.forward = Vector3.Slerp(playerObject.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
         }
         }
 
@@ -72,6 +74,7 @@ public class ThirdPersonCamera : MonoBehaviour
             orientation.forward = dirToCombatLookAt.normalized;
 
             playerObject.forward = dirToCombatLookAt.normalized;
+            spiritPlayerObject.forward = dirToCombatLookAt.normalized;
         }
     }
 
