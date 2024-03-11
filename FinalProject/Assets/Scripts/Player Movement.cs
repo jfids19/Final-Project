@@ -63,6 +63,10 @@ public class PlayerMovement : MonoBehaviour
     private bool isHumanActive = true;
     private bool isSpiritActive = false;
 
+    [Header("Audio")]
+    public AudioSource footstepAudioSource;
+    public AudioSource formChange;
+
     public MovementState state;
 
     public enum MovementState
@@ -117,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
             rb.drag = 0;
 
         UpdateAnimator();
+        audioController();
     }
 
     private void FixedUpdate()
@@ -206,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
                 capsuleCollider.height = 1.5f;
                 capsuleCollider.radius = 0.35f;
                 capsuleCollider.center = new Vector3(0f,-1.96f,0f);
+                formChange.Play();
             }
             else if(isSpiritActive == true)
             {
@@ -216,6 +222,7 @@ public class PlayerMovement : MonoBehaviour
                 capsuleCollider.height = originalColliderHeight;
                 capsuleCollider.radius = originalColliderRadius;
                 capsuleCollider.center = originalColliderCenter;
+                formChange.Play();
             }
         }
     }
@@ -375,6 +382,45 @@ public class PlayerMovement : MonoBehaviour
         if(collision.gameObject.CompareTag("Ground"))
         {
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        }
+    }
+
+    void audioController()
+    {
+        bool isMoving = Mathf.Abs(horizontalInput) > 0.1f || Mathf.Abs(verticalInput) > 0.1f;
+        
+        if(grounded)
+        {
+            if(isMoving)
+            {   
+                if(!footstepAudioSource.isPlaying)
+                {
+                    footstepAudioSource.Play();
+                }
+            }
+            else
+            {
+                if(footstepAudioSource.isPlaying)
+                {
+                    footstepAudioSource.Stop();
+                }
+            }
+        }
+        else
+        {
+            if(footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.Stop();
+            }
+        }
+
+        if(state == MovementState.sprinting)
+        {
+            footstepAudioSource.pitch = 1.3f;
+        }
+        else
+        {
+            footstepAudioSource.pitch = 1.0f;
         }
     }
 }
