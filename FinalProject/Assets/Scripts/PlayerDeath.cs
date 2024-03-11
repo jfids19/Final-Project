@@ -5,6 +5,11 @@ using UnityEngine;
 public class PlayerDeath : MonoBehaviour
 {
     private Vector3 respawnPoint;
+    public AudioSource deathSoundEffect;
+    public AudioSource deathMusic;
+
+    public Animator playerAnimator;
+    public Animator spiritAnimator;
     
     // Start is called before the first frame update
     void Start()
@@ -18,6 +23,9 @@ public class PlayerDeath : MonoBehaviour
     }
     public void Die()
     {
-        transform.position = respawnPoint;
+        deathSoundEffect.Play();
+        deathMusic.Play();
+       
+       transform.position = respawnPoint;
     }
 }
