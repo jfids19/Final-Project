@@ -346,3 +346,11 @@ Received Import Request.
 Start importing Assets/Blender/Characters/Vulcan.fbx using Guid(595560f515fe94f95b08eb1cf513cd84) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2cf9248c63668b5f6607fb37f146a47d') in 0.425287 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 69
+========================================================================
+Received Import Request.
+  Time since last request: 4665.476269 seconds.
+  path: Assets/Blender/Characters/Nebula.fbx
+  artifactKey: Guid(ccece430b52d94e6980f43a4665ef7d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Blender/Characters/Nebula.fbx using Guid(ccece430b52d94e6980f43a4665ef7d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3bad946f991fc37e70ac6c0f0c921028') in 0.262553 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 15
