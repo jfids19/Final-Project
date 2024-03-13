@@ -28,7 +28,7 @@ public class Cutscene1 : MonoBehaviour
 
     IEnumerator FinishCut()
     {
-        yield return new WaitForSeconds(9.17f);
+        yield return new WaitForSeconds(5.35f);
         mainCamera.SetActive(true);
         player.SetActive(true);
         cutscene.SetActive(false);
