@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class Cutscene1 : MonoBehaviour
+public class CutsceneController : MonoBehaviour
 {
     public GameObject player;
     public GameObject cutscene;
@@ -15,7 +14,7 @@ public class Cutscene1 : MonoBehaviour
         cutscene.SetActive(false);
         timeline.enabled = false;
     }
-    
+
     void OnTriggerEnter(Collider other)
     {
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
@@ -23,12 +22,14 @@ public class Cutscene1 : MonoBehaviour
         mainCamera.SetActive(false);
         player.SetActive(false);
         timeline.enabled = true;
-        StartCoroutine(FinishCut());
+
+        float cutsceneDuration = (float)timeline.duration;
+        StartCoroutine(FinishCut(cutsceneDuration));
     }
 
-    IEnumerator FinishCut()
+    IEnumerator FinishCut(float duration)
     {
-        yield return new WaitForSeconds(5.35f);
+        yield return new WaitForSeconds(duration);
         mainCamera.SetActive(true);
         player.SetActive(true);
         cutscene.SetActive(false);
