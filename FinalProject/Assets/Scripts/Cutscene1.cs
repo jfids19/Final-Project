@@ -9,6 +9,8 @@ public class CutsceneController : MonoBehaviour
     public GameObject mainCamera;
     public PlayableDirector timeline;
 
+    [SerializeField] private GameObject[] objectsToHide;
+
     void Start()
     {
         cutscene.SetActive(false);
@@ -18,6 +20,15 @@ public class CutsceneController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
+        
+        foreach(GameObject obj in objectsToHide)
+        {
+            if(obj != null)
+            {
+                obj.SetActive(false);
+            }
+        }
+        
         cutscene.SetActive(true);
         mainCamera.SetActive(false);
         player.SetActive(false);
@@ -32,6 +43,15 @@ public class CutsceneController : MonoBehaviour
         yield return new WaitForSeconds(duration);
         mainCamera.SetActive(true);
         player.SetActive(true);
+        
+        foreach(GameObject obj in objectsToHide)
+        {
+            if(obj != null)
+            {
+                obj.SetActive(true);
+            }
+        }
+        
         cutscene.SetActive(false);
     }
 }
