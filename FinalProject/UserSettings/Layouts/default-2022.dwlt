@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1440
     height: 872
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Scene
   m_RootView: {fileID: 3}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 50
+  controlID: 20
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 51
+  controlID: 40
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: GameView
+  m_Name: SceneView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -191,15 +191,15 @@ MonoBehaviour:
     y: 0
     width: 842.5
     height: 650
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 14}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
   - {fileID: 14}
   - {fileID: 15}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -246,8 +246,8 @@ MonoBehaviour:
     y: 0
     width: 408.5
     height: 822
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
@@ -340,25 +340,25 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 0c7b0000
-      m_LastClickedID: 31500
-      m_ExpandedIDs: fefafffff87a00000c7b0000
+      m_SelectedIDs: 26210100
+      m_LastClickedID: 74022
+      m_ExpandedIDs: bab5f4ff18e3f4fffefaffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: ThirdPersonCam (1)
-        m_OriginalName: ThirdPersonCam (1)
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: -27072
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 2}
+        m_ClientGUIView: {fileID: 0}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -775,9 +775,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 901.2176, y: 230.72134, z: 154.78465}
+    m_Target: {x: 515.6216, y: -199.87024, z: 447.4981}
     speed: 2
-    m_Value: {x: 901.2176, y: 230.72134, z: 154.78465}
+    m_Value: {x: 515.6216, y: -199.87024, z: 447.4981}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -823,20 +823,20 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.1223385, y: 0.69011706, z: -0.12042807, w: -0.70321476}
+    m_Target: {x: -0.26900604, y: 0.4045244, z: -0.12588532, w: -0.8651545}
     speed: 2
-    m_Value: {x: -0.12232369, y: 0.6900335, z: -0.12041349, w: -0.7031296}
+    m_Value: {x: -0.26895985, y: 0.40445492, z: -0.1258637, w: -0.8650059}
   m_Size:
-    m_Target: 6.224114
+    m_Target: 338.81912
     speed: 2
-    m_Value: 6.224114
+    m_Value: 322.1435
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 1
-    m_SpeedNormalized: 0.5
+    m_Speed: 1.0049033
+    m_SpeedNormalized: 0.50220275
     m_SpeedMin: 0.001
     m_SpeedMax: 2
     m_EasingEnabled: 1
@@ -922,7 +922,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -1089,7 +1089,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Animations
+    - Assets/Blender/Models
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1097,16 +1097,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Animations
+  - Assets/Blender/Models
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/jfids/Documents/GitHub/Final-Project/FinalProject
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 427e0000
-    m_LastClickedID: 32322
-    m_ExpandedIDs: 00000000147e0000167e0000187e00001a7e00001c7e00001e7e0000207e0000227e0000
+    scrollPos: {x: 0, y: 6.5911865}
+    m_SelectedIDs: 0a7f0000
+    m_LastClickedID: 32522
+    m_ExpandedIDs: 00000000667d0000687d00006a7d00006c7d00006e7d0000707d0000727d0000747d0000a4ec000046ed0000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1134,7 +1134,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000147e0000167e0000187e00001a7e00001c7e00001e7e0000207e0000227e0000
+    m_ExpandedIDs: 00000000667d0000687d00006a7d00006c7d00006e7d0000707d0000727d0000747d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
