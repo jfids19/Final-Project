@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - CutsceneCollider1
   - CutsceneCollider2
+  - River
   layers:
   - Default
   - TransparentFX

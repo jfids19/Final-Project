@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
-    private int currentHealth;
+    [SerializeField] private int currentHealth;
 
     public PlayerDeath playerDeath;
     
@@ -21,6 +21,11 @@ public class PlayerHealth : MonoBehaviour
         
     }
 
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+    
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
@@ -33,5 +38,6 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         playerDeath.Die();
+        currentHealth = maxHealth;
     }
 }

@@ -12,8 +12,11 @@ public class BoatController : MonoBehaviour
     private void Update()
     {
         // If the player is on the boat, move towards the calculated direction
-        if (playerOnBoat && player != null)
+        if (playerOnBoat && player != null && centre != null)
         {
+            //Calculate the direction vector towards the player on the boat
+            direction = (player.position - centre.position).normalized;
+
             // Move the boat towards the player's position on the boat
             transform.Translate(direction * speed * Time.deltaTime);
         }
