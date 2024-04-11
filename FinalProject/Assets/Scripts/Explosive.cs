@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Explosive : MonoBehaviour
 {
-    [SerializeField] private float explosionRadius = 20f;
-    [SerializeField] private float explosionForce = 25f;
-    [SerializeField] private float damageAmount = 50f;
+    [SerializeField] private float explosionRadius = 15f;
+    [SerializeField] private float explosionForce = 15f;
+    [SerializeField] private float damageAmount = 40f;
+    [SerializeField] private AudioClip explosionSound;
+    [SerializeField] private AudioClip waterSound;
+    [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private GameObject waterSplash;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -18,6 +22,29 @@ public class Explosive : MonoBehaviour
 
     private void Explode()
     {
+        //Play explosion sound
+        if(explosionSound != null)
+        {
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+        }
+
+        //Play water splash
+        if(waterSound != null)
+        {
+            AudioSource.PlayClipAtPoint(waterSound, transform.position);
+        }
+
+        //Instantiate explosion prefab
+        if(explosionPrefab != null)
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        }
+
+        if(waterSplash != null)
+        {
+            Instantiate(waterSplash, transform.position, Quaternion.identity);
+        }
+        
         //Apply explosion force to nearby objects
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach(Collider collider in colliders)

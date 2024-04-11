@@ -7,6 +7,8 @@ public class PlayerDeath : MonoBehaviour
     private Vector3 respawnPoint;
     public AudioSource deathSoundEffect;
     public AudioSource deathMusic;
+    public BoatController boatController;
+    public GameObject bombSpawn;
 
     public Animator playerAnimator;
     public Animator spiritAnimator;
@@ -27,5 +29,11 @@ public class PlayerDeath : MonoBehaviour
         deathMusic.Play();
        
        transform.position = respawnPoint;
+       bombSpawn.SetActive(false);
+
+       if(boatController != null)
+       {
+            boatController.ResetBoatPosition();
+       }
     }
 }

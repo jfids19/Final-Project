@@ -7,15 +7,23 @@ public class BombSpawn : MonoBehaviour
     [SerializeField] private GameObject bombPrefab;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private float spawnInterval = 3f;
-    [SerializeField] private float spawnRadius = 10f;
+    [SerializeField] private float spawnInterval = 2f;
+    [SerializeField] private float spawnRadius = 20f;
     [SerializeField] private float spawnHeight = 30f;
+    [SerializeField] private float lineLength = 100f;
+    [SerializeField] private int numDots = 10;
+    [SerializeField] private Material lineMaterial;
     
     private float timer;
 
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
+    
     // Update is called once per frame
     void Update()
-    {
+    {  
        timer += Time.deltaTime;
        if (timer >= spawnInterval)
        {
@@ -50,6 +58,24 @@ public class BombSpawn : MonoBehaviour
                 }
 
                 bomb.AddComponent<Explosive>();
+
+                //Add line renderer component to the bomb
+                LineRenderer lineRenderer = bomb.AddComponent<LineRenderer>();
+                lineRenderer.positionCount = numDots;
+                lineRenderer.material = lineMaterial;
+                lineRenderer.startWidth = 0.1f;
+                lineRenderer.endWidth = 0.1f;
+                lineRenderer.useWorldSpace = true;
+
+                //calculate positions for the dotted line
+                Vector3[] positions = new Vector3[numDots];
+                for(int i = 0; i < numDots; i++)
+                {
+                    float t = i / (float)(numDots - 1);
+                    positions[i] = Vector3.Lerp(spawnPosition, hit.point, t);
+                }
+
+                lineRenderer.SetPositions(positions);
             }
         }
     }
