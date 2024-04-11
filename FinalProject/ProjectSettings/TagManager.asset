@@ -8,6 +8,7 @@ TagManager:
   - CutsceneCollider1
   - CutsceneCollider2
   - River
+  - Boat
   layers:
   - Default
   - TransparentFX

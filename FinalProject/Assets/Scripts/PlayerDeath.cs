@@ -9,6 +9,11 @@ public class PlayerDeath : MonoBehaviour
     public AudioSource deathMusic;
     public BoatController boatController;
     public GameObject bombSpawn;
+    [SerializeField] private GameObject[] hearts;
+    [SerializeField] private GameObject boatBattleMusic;
+    [SerializeField] private GameObject jungleAmbience;
+    [SerializeField] private GameObject jungleMusic;
+
 
     public Animator playerAnimator;
     public Animator spiritAnimator;
@@ -30,6 +35,14 @@ public class PlayerDeath : MonoBehaviour
        
        transform.position = respawnPoint;
        bombSpawn.SetActive(false);
+       jungleMusic.SetActive(true);
+       jungleAmbience.SetActive(true);
+       boatBattleMusic.SetActive(false);
+
+       foreach(GameObject heart in hearts)
+       {
+            heart.SetActive(true);
+       }
 
        if(boatController != null)
        {

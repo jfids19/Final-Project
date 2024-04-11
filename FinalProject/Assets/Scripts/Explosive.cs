@@ -25,13 +25,13 @@ public class Explosive : MonoBehaviour
         //Play explosion sound
         if(explosionSound != null)
         {
-            AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+            AudioController.PlayClipLoudly(explosionSound, transform.position, 1f);
         }
 
         //Play water splash
         if(waterSound != null)
         {
-            AudioSource.PlayClipAtPoint(waterSound, transform.position);
+            AudioController.PlayClipLoudly(waterSound, transform.position, 0.75f);
         }
 
         //Instantiate explosion prefab

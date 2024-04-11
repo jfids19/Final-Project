@@ -6,6 +6,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     [SerializeField] private int currentHealth;
+    [SerializeField] private AudioSource deathSoundEffect;
 
     public PlayerDeath playerDeath;
     
@@ -29,10 +30,16 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        deathSoundEffect.Play();
         if(currentHealth <0)
         {
             Die();
         }
+    }
+
+    public void RestoreHealth()
+    {
+        currentHealth = maxHealth;
     }
 
     void Die()

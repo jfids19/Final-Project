@@ -9,6 +9,9 @@ public class BoatBoarding : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private KeyCode teleportKey = KeyCode.B;
     [SerializeField] private GameObject bombSpawn;
+    [SerializeField] private GameObject boatMusic;
+    [SerializeField] private GameObject jungleMusic;
+    [SerializeField] private GameObject jungleAmbience;
 
     private bool playerOnDock = false;
     private bool playerInRange = false;
@@ -16,7 +19,7 @@ public class BoatBoarding : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        boatMusic.SetActive(false);
     }
 
     // Update is called once per frame
@@ -28,11 +31,17 @@ public class BoatBoarding : MonoBehaviour
             {
                 TeleportPlayerToBoatCentre();
                 bombSpawn.SetActive(true);
+                boatMusic.SetActive(true);
+                jungleMusic.SetActive(false);
+                jungleAmbience.SetActive(false);
             }
             else if(playerInRange)
             {
                 TeleportPlayerToDock();
                 bombSpawn.SetActive(false);
+                boatMusic.SetActive(false);
+                jungleMusic.SetActive(true);
+                jungleAmbience.SetActive(true);
             }
         }
     }
