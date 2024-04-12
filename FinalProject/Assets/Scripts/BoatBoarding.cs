@@ -12,6 +12,9 @@ public class BoatBoarding : MonoBehaviour
     [SerializeField] private GameObject boatMusic;
     [SerializeField] private GameObject jungleMusic;
     [SerializeField] private GameObject jungleAmbience;
+    [SerializeField] private GameObject boardBoat;
+    [SerializeField] private GameObject leaveBoat;
+    [SerializeField] private GameObject monkeySounds;
 
     private bool playerOnDock = false;
     private bool playerInRange = false;
@@ -20,6 +23,9 @@ public class BoatBoarding : MonoBehaviour
     void Start()
     {
         boatMusic.SetActive(false);
+        boardBoat.SetActive(false);
+        leaveBoat.SetActive(false);
+        monkeySounds.SetActive(false);
     }
 
     // Update is called once per frame
@@ -34,6 +40,7 @@ public class BoatBoarding : MonoBehaviour
                 boatMusic.SetActive(true);
                 jungleMusic.SetActive(false);
                 jungleAmbience.SetActive(false);
+                monkeySounds.SetActive(true);
             }
             else if(playerInRange)
             {
@@ -42,6 +49,7 @@ public class BoatBoarding : MonoBehaviour
                 boatMusic.SetActive(false);
                 jungleMusic.SetActive(true);
                 jungleAmbience.SetActive(true);
+                monkeySounds.SetActive(false);
             }
         }
     }
@@ -51,6 +59,7 @@ public class BoatBoarding : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             playerOnDock = true;
+            boardBoat.SetActive(true);
         }
     }
 
@@ -59,6 +68,7 @@ public class BoatBoarding : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             playerOnDock = false;
+            boardBoat.SetActive(false);
         }
     }
 
@@ -67,6 +77,7 @@ public class BoatBoarding : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             playerInRange = true;
+            leaveBoat.SetActive(true);
         }
     }
 
@@ -75,6 +86,7 @@ public class BoatBoarding : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             playerInRange = false;
+            leaveBoat.SetActive(false);
         }
     }
 
