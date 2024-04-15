@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float groundDrag;
 
     public float jumpForce;
+    private float originalJumpForce;
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
@@ -98,6 +99,8 @@ public class PlayerMovement : MonoBehaviour
         //activation of players
         playerObject.gameObject.SetActive(true);
         spiritPlayerObject.gameObject.SetActive(false);
+
+        originalJumpForce = jumpForce;
     }
 
     // Update is called once per frame
@@ -421,5 +424,15 @@ public class PlayerMovement : MonoBehaviour
         {
             footstepAudioSource.pitch = 1.0f;
         }
+    }
+
+    public void AdjustJumpForce(float multiplier)
+    {
+        jumpForce *= multiplier;
+    }
+
+    public void ResetJumpForce()
+    {
+        jumpForce = originalJumpForce;
     }
 }

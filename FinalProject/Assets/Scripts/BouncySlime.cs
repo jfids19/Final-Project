@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class BouncySlime : MonoBehaviour
 {
-    [SerializeField] private float baseBounciness = 0.5f;
-    [SerializeField] private float bounceIncreaseAmount = 0.1f;
-
-    private Collider slimeCollider;
-    private int bounceCount = 0;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        slimeCollider = GetComponent<Collider>();
-        slimeCollider.material.bounciness = baseBounciness;
-    }
+    [SerializeField] private float slimeJumpForceMultiplier = 3f;
 
     void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.CompareTag("Player"))
         {
-            bounceCount++;
-            slimeCollider.material.bounciness += bounceIncreaseAmount;
+            PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+            if(playerMovement != null)
+            {
+                playerMovement.AdjustJumpForce(slimeJumpForceMultiplier);
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.collider.CompareTag("Player"))
+        {
+            PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+            if(playerMovement != null)
+            {
+                playerMovement.ResetJumpForce();
+            }
         }
     }
 }
