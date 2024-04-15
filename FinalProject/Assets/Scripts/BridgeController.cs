@@ -27,8 +27,22 @@ public class BridgeController : MonoBehaviour
                     sectionRb = section.AddComponent<Rigidbody>();
                 }
                 sectionRb.useGravity = true;
+
+                section.transform.localScale = new Vector3(0.25f, 0.4f, 1f);
             }
             activated = true;
+
+            StartCoroutine(DeactivateSectionsAfterDelay(5f));
+        }
+    }
+
+    IEnumerator DeactivateSectionsAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        foreach(GameObject section in bridgeSections)
+        {
+            section.SetActive(false);
         }
     }
 }
