@@ -435,4 +435,9 @@ public class PlayerMovement : MonoBehaviour
     {
         jumpForce = originalJumpForce;
     }
+
+    public bool spiritFormCheck()
+    {
+        return isSpiritActive;
+    }
 }

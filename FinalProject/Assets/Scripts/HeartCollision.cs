@@ -21,10 +21,19 @@ public class HeartCollision : MonoBehaviour
             {
                 playerHealth.RestoreHealth();
             }
+
+            audioSource.Play();
+            gameObject.SetActive(false);
         }
+        else if(other.CompareTag("Player"))
+        {
+            if(playerHealth != null)
+            {
+                playerHealth.RestoreHealth();
+            }
 
-        audioSource.Play();
-
-        gameObject.SetActive(false);
+            audioSource.Play();
+            gameObject.SetActive(false);
+        }
     }
 }

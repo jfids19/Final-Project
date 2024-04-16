@@ -5,6 +5,7 @@ using UnityEngine;
 public class BouncySlime : MonoBehaviour
 {
     [SerializeField] private float slimeJumpForceMultiplier = 3f;
+    [SerializeField] private bool isSmallSlime = false;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -13,7 +14,14 @@ public class BouncySlime : MonoBehaviour
             PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
             if(playerMovement != null)
             {
-                playerMovement.AdjustJumpForce(slimeJumpForceMultiplier);
+                if(isSmallSlime && playerMovement.spiritFormCheck())
+                {
+                    playerMovement.AdjustJumpForce(slimeJumpForceMultiplier);
+                }
+                else if(!isSmallSlime)
+                {
+                    playerMovement.AdjustJumpForce(slimeJumpForceMultiplier);
+                }
             }
         }
     }

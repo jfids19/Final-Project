@@ -63,6 +63,12 @@ public class Explosive : MonoBehaviour
                 float damage = Mathf.Lerp(damageAmount, 0f, distance / explosionRadius);
                 playerHealth.TakeDamage(Mathf.RoundToInt(damage));
             }
+
+            BossHealth bossHealth = collider.GetComponent<BossHealth>();
+            if(bossHealth != null)
+            {
+                bossHealth.TakeDamage(20);
+            }
         }
         
         Debug.Log("Bomb exploded on hitting the river");

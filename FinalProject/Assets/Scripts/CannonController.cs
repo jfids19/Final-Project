@@ -9,9 +9,12 @@ public class CannonController : MonoBehaviour
     [SerializeField] private Transform shootingDirection;
     [SerializeField] private float cooldownDuration = 5f;
     [SerializeField] private GameObject platformParent;
+    [SerializeField] private GameObject heartPrefab;
+    [SerializeField] private Transform heartSpawnLocation;
 
     private bool isWithinTrigger = false;
     private bool canShoot = true;
+    private int shotCount = 0;
 
     void OnTriggerEnter(Collider other)
     {
@@ -50,18 +53,25 @@ public class CannonController : MonoBehaviour
             
                 bombRigidbody.AddForce(shootDirection * shootForce, ForceMode.Impulse);
             }
+
+            Instantiate(heartPrefab, heartSpawnLocation.position, heartSpawnLocation.rotation);
         }
+
+        shotCount++;
+        canShoot = false;
 
         Invoke("StartCooldown", 2f);
     }
 
     void StartCooldown()
-    {
-        canShoot = false;
-
-        if(platformParent != null)
+    {   
+        foreach(Transform child in platformParent.transform)
         {
-            platformParent.SetActive(false);
+            Collider[] colliders = child.GetComponentsInChildren<Collider>();
+            foreach(Collider collider in colliders)
+            {
+                collider.enabled = false;
+            }
         }
 
         Invoke("ResetCanShoot", cooldownDuration);
@@ -69,11 +79,20 @@ public class CannonController : MonoBehaviour
 
     void ResetCanShoot()
     {
-        canShoot = true;
-
-        if(platformParent != null)
+        foreach(Transform child in platformParent.transform)
         {
-            platformParent.SetActive(true);
+            Collider[] colliders = child.GetComponentsInChildren<Collider>();
+            foreach(Collider collider in colliders)
+            {
+                collider.enabled = true;
+            }
         }
+        
+        canShoot = true;
+    }
+
+    public int ShotCounter()
+    {
+        return shotCount;
     }
 }

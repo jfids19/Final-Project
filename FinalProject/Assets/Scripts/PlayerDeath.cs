@@ -8,6 +8,7 @@ public class PlayerDeath : MonoBehaviour
     public AudioSource deathSoundEffect;
     public AudioSource deathMusic;
     public BoatController boatController;
+    public FallingPlatforms fallingPlatforms;
     public GameObject bombSpawn;
     [SerializeField] private GameObject[] hearts;
     [SerializeField] private GameObject boatBattleMusic;
@@ -38,6 +39,8 @@ public class PlayerDeath : MonoBehaviour
        jungleMusic.SetActive(true);
        jungleAmbience.SetActive(true);
        boatBattleMusic.SetActive(false);
+
+       fallingPlatforms.SetPlatformsActive();
 
        foreach(GameObject heart in hearts)
        {
