@@ -6,6 +6,7 @@ public class BridgeController : MonoBehaviour
 {
     [SerializeField] private bool shouldFall;
     [SerializeField] private GameObject[] bridgeSections;
+    [SerializeField] private GameObject bridgeFalling;
 
     private bool activated;
 
@@ -13,6 +14,8 @@ public class BridgeController : MonoBehaviour
     void Start()
     {
         activated = false;
+
+        bridgeFalling.SetActive(false);
     }
 
     void OnTriggerEnter(Collider other)
@@ -32,6 +35,8 @@ public class BridgeController : MonoBehaviour
             }
             activated = true;
 
+            StartCoroutine(BridgeFallSound());
+
             StartCoroutine(DeactivateSectionsAfterDelay(5f));
         }
     }
@@ -44,5 +49,14 @@ public class BridgeController : MonoBehaviour
         {
             section.SetActive(false);
         }
+    }
+
+    IEnumerator BridgeFallSound()
+    {
+        bridgeFalling.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+
+        bridgeFalling.SetActive(false);
     }
 }

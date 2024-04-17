@@ -11,16 +11,24 @@ public class CannonController : MonoBehaviour
     [SerializeField] private GameObject platformParent;
     [SerializeField] private GameObject heartPrefab;
     [SerializeField] private Transform heartSpawnLocation;
+    [SerializeField] private GameObject fireInstructions;
+    [SerializeField] private GameObject shotSound;
 
     private bool isWithinTrigger = false;
     private bool canShoot = true;
     private int shotCount = 0;
 
+    void Start()
+    {
+        shotSound.SetActive(false);
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
             isWithinTrigger = true;
+            fireInstructions.SetActive(true);
         }
     }
 
@@ -29,6 +37,7 @@ public class CannonController : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             isWithinTrigger = false;
+            fireInstructions.SetActive(false);
         }
     }
 
@@ -59,6 +68,8 @@ public class CannonController : MonoBehaviour
 
         shotCount++;
         canShoot = false;
+
+        StartCoroutine(ShotAudio());
 
         Invoke("StartCooldown", 2f);
     }
@@ -94,5 +105,19 @@ public class CannonController : MonoBehaviour
     public int ShotCounter()
     {
         return shotCount;
+    }
+
+    public void ResetCount()
+    {
+        shotCount = 0;
+    }
+
+    private IEnumerator ShotAudio()
+    {
+        shotSound.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        shotSound.SetActive(false);
     }
 }

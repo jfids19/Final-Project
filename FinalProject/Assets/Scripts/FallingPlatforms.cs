@@ -6,26 +6,34 @@ public class FallingPlatforms : MonoBehaviour
 {
     [SerializeField] private CannonController cannonController;
     [SerializeField] private GameObject[] platforms; // Array to hold different platforms
-    private Vector3[][] originalPositions; // Store original positions of each platform's children
-    private Quaternion[][] originalRotations; // Store original rotations of each platform's children
     private int count;
+    [SerializeField] private HashSet<GameObject> platformsDisabled = new HashSet<GameObject>();
+    private Dictionary<GameObject, Vector3> originalPositions = new Dictionary<GameObject, Vector3>();
+    private Dictionary<GameObject, Quaternion> originalRotations = new Dictionary<GameObject, Quaternion>();
+    private Dictionary<GameObject, Vector3> originalScales = new Dictionary<GameObject, Vector3>();
 
     // Start is called before the first frame update
     void Start()
     {
         count = cannonController.ShotCounter();
 
-        // Store original positions and rotations of all platforms and their children
-        originalPositions = new Vector3[platforms.Length][];
-        originalRotations = new Quaternion[platforms.Length][];
-        for (int i = 0; i < platforms.Length; i++)
+        foreach(GameObject platform in platforms)
         {
-            StoreOriginalData(platforms[i], i);
+            originalPositions.Add(platform, platform.transform.position);
+            originalRotations.Add(platform, platform.transform.rotation);
+            originalScales.Add(platform, platform.transform.localScale);
+
+            foreach(Transform child in platform.transform)
+            {
+                originalPositions.Add(child.gameObject, child.position);
+                originalRotations.Add(child.gameObject, child.rotation);
+                originalScales.Add(child.gameObject, child.localScale);
+            }
         }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         count = cannonController.ShotCounter();
 
@@ -42,61 +50,56 @@ public class FallingPlatforms : MonoBehaviour
                 {
                     rb = platformChild.gameObject.AddComponent<Rigidbody>();
                 }
+            }
 
-                StartCoroutine(DisablePlatformDelayed(platformChild.gameObject, platformIndex));
+            if(!platformsDisabled.Contains(platforms[platformIndex]))
+            {
+                StartCoroutine(DisablePlatformDelayed(platforms[platformIndex].gameObject)); // Pass gameObject property
             }
         }
     }
 
-    private IEnumerator DisablePlatformDelayed(GameObject platform, int platformIndex)
+    private IEnumerator DisablePlatformDelayed(GameObject platform)
     {
         yield return new WaitForSeconds(5f);
-        platform.SetActive(false);
-    }
-
-    private void StoreOriginalData(GameObject platform, int platformIndex)
-    {
-        Transform[] children = platform.GetComponentsInChildren<Transform>();
-        originalPositions[platformIndex] = new Vector3[children.Length];
-        originalRotations[platformIndex] = new Quaternion[children.Length];
-        for (int i = 0; i < children.Length; i++)
+        if(!platformsDisabled.Contains(platform))
         {
-            originalPositions[platformIndex][i] = children[i].position;
-            originalRotations[platformIndex][i] = children[i].rotation;
+            platformsDisabled.Add(platform);
+            Debug.Log("Group Added");
+            Debug.Log("Shot Count: " + cannonController.ShotCounter());
+            platform.SetActive(false);
         }
     }
 
-    private void OnDisable()
+    public void ResetPlatforms()
     {
-        // Reset positions and rotations of platforms' children
-        for (int i = 0; i < platforms.Length; i++)
+        foreach(GameObject platform in platformsDisabled)
         {
-            ResetPlatformTransform(platforms[i], i);
-        }
-    }
+            Debug.Log("Group Reset");
+            Transform platformTransform = platform.transform;
 
-    private void ResetPlatformTransform(GameObject platform, int platformIndex)
-    {
-        Vector3[] platformOriginalPositions = originalPositions[platformIndex];
-        Quaternion[] platformOriginalRotations = originalRotations[platformIndex];
-        Transform[] children = platform.GetComponentsInChildren<Transform>();
-        for (int i = 0; i < children.Length; i++)
-        {
-            children[i].position = platformOriginalPositions[i];
-            children[i].rotation = platformOriginalRotations[i];
-        }
-    }
+            platformTransform.position = originalPositions[platform];
 
-    public void SetPlatformsActive()
-    {
-        foreach(GameObject platform in platforms)
-        {
-            platform.SetActive(true);
+            platformTransform.rotation = originalRotations[platform];
+
+            platformTransform.localScale = originalScales[platform];
+            
             foreach(Transform child in platform.transform)
             {
-                child.gameObject.SetActive(true);
+                Rigidbody rb = child.GetComponent<Rigidbody>();
+                if(rb != null)
+                {
+                    Destroy(rb);
+                }
+
+                child.position = originalPositions[child.gameObject];
+                child.rotation = originalRotations[child.gameObject];
+                child.localScale = originalScales[child.gameObject];
             }
+
+            platform.SetActive(true);
         }
+        platformsDisabled.Clear();
+        count = cannonController.ShotCounter();
     }
 }
-

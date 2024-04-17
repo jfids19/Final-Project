@@ -5,7 +5,20 @@ using UnityEngine;
 public class BossBattleController : MonoBehaviour
 {
     [SerializeField] private GameObject bossBombSpawner;
+    [SerializeField] private GameObject fireInstructions;
+    [SerializeField] private GameObject bossHealthBar;
+    [SerializeField] private BossHealth bossHealth;
+    [SerializeField] private GameObject bossMusic;
+    [SerializeField] private GameObject jungleMusic;
+    [SerializeField] private GameObject jungleAmbience;
 
+    void Start()
+    {
+        fireInstructions.SetActive(false);
+        bossHealthBar.SetActive(false);
+        bossMusic.SetActive(false);
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -14,6 +27,11 @@ public class BossBattleController : MonoBehaviour
             {
                 bossBombSpawner.SetActive(true);
             }
+
+            bossHealthBar.SetActive(true);
+            bossMusic.SetActive(true);
+            jungleMusic.SetActive(false);
+            jungleAmbience.SetActive(false);
         }
     }
 
@@ -25,6 +43,13 @@ public class BossBattleController : MonoBehaviour
             {
                 bossBombSpawner.SetActive(false);
             }
+
+            bossHealthBar.SetActive(false);
+
+            bossHealth.ResetHealth();
+            bossMusic.SetActive(false);
+            jungleMusic.SetActive(true);
+            jungleAmbience.SetActive(true);
         }
     }
 }

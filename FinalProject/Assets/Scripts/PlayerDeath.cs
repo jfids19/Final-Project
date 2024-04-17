@@ -10,6 +10,8 @@ public class PlayerDeath : MonoBehaviour
     public BoatController boatController;
     public FallingPlatforms fallingPlatforms;
     public GameObject bombSpawn;
+    public CannonController cannonController;
+    public BossHealth bossHealth;
     [SerializeField] private GameObject[] hearts;
     [SerializeField] private GameObject boatBattleMusic;
     [SerializeField] private GameObject jungleAmbience;
@@ -33,14 +35,17 @@ public class PlayerDeath : MonoBehaviour
     {
         deathSoundEffect.Play();
         deathMusic.Play();
-       
-       transform.position = respawnPoint;
-       bombSpawn.SetActive(false);
-       jungleMusic.SetActive(true);
-       jungleAmbience.SetActive(true);
-       boatBattleMusic.SetActive(false);
 
-       fallingPlatforms.SetPlatformsActive();
+        cannonController.ResetCount();
+        fallingPlatforms.ResetPlatforms();
+
+        bossHealth.ResetHealth();
+       
+        transform.position = respawnPoint;
+        bombSpawn.SetActive(false);
+        jungleMusic.SetActive(true);
+        jungleAmbience.SetActive(true);
+        boatBattleMusic.SetActive(false);
 
        foreach(GameObject heart in hearts)
        {
